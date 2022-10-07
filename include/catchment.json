@@ -48,7 +48,56 @@
     "min_sto": 4,
     "sto_range": "1,7",
     "load_type": 0
+  },
+  {
+    "basin_id": "1420",
+    "basin_name": "大甲溪",
+    "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
+    "dtm": "data/catchment/C1420_20m_elv0.tif",
+    "ldd": "data/catchment/C1420_20m_ldd.tif",
+    "min_sto": 9,
+    "sto_range": "4,12",
+    "load_type": 0
+  },
+  {
+    "basin_id": "1140",
+    "basin_name": "淡水河",
+    "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
+    "dtm": "data/catchment/C1140_20m_elv0.tif",
+    "ldd": "data/catchment/C1140_20m_ldd.tif",
+    "min_sto": 9,
+    "sto_range": "4,12",
+    "load_type": 0
+},
+  {
+    "basin_id": "1510",
+    "basin_name": "濁水溪",
+    "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
+    "dtm": "data/catchment/C1510_20m_elv0.tif",
+    "ldd": "data/catchment/C1510_20m_ldd.tif",
+    "min_sto": 9,
+    "sto_range": "4,12",
+    "load_type": 0
+  },
+  {
+    "basin_id": "1630",
+    "basin_name": "曾文溪",
+    "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
+    "dtm": "data/catchment/C1630_20m_elv0.tif",
+    "ldd": "data/catchment/C1630_20m_ldd.tif",
+    "min_sto": 9,
+    "sto_range": "4,12",
+    "load_type": 0
+  },
+  {
+    "basin_id": "1730",
+    "basin_name": "高屏溪",
+    "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
+    "dtm": "data/catchment/C1730_20m_elv0.tif",
+    "ldd": "data/catchment/C1730_20m_ldd.tif",
+    "min_sto": 9,
+    "sto_range": "4,12",
+    "load_type": 0
   }
-
 ]
 

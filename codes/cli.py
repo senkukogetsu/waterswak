@@ -205,11 +205,9 @@ class CliTool(cmd.Cmd):
 (3)if path start with ~/ , will locate in DATA2_DIR(defined in waterswak.ini)
 (4)geopandas read_file parameters needed can be pass by multiple keyword=value
 (5)pathname=help provide keyword help message
-
 read_file pathname [keyword=value] [...]
 ex: read_file data/7441-鄉鎮市區界線(TWD97經緯度)/TOWN_MOI.shp  encoding='utf-8'
     read_file ~/國發會/TOWN_MOI/TOWN_MOI_1080617.shp
-
 """
 
         data_dir=''
@@ -312,7 +310,6 @@ get_flow flow_id desc
 get_flow flow_id time_xy t x y o
 get_flow flow_id his_xy x y o
 get_flow flow_id max_offset x y o
-
 ex: get_flow C1300QE-202107251400 desc
     get_flow C1300QE-202107251400 time_xy 27114180 120.9339 24.4961 10
     get_flow C1300QE-202107251400 his_xy 120.9339 24.4961 10
@@ -739,6 +736,8 @@ ex: output stream
         #filename = "data/喝好水 吃好物 有良居-公民協力 - 點位集水區.csv"
         if self.fd is None:
             return
+        # print(self.fd)
+        # print(line)
         pars=line.split()
         if len(pars)>=1:
             id = pars[0]
@@ -835,7 +834,6 @@ info point_height x,y
      2node node_a node_b
      point_near x,y [min_distance] :  get stream nearest information by point, line_index, distance, point_x, point_y
      2point x1,y1 x2,y2 [min_distance] : desc 2point path, path length, river length
-
 ex: info point_height 274202,2731387
     info 2node S0 E18
     info point_near 253520,2743364 5000
