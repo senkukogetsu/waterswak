@@ -26,10 +26,11 @@ if __name__ =='__main__':
     # gc.CLI = cli.Cli()
     # gc.CLI.cmdloop()
 
-    cli.Cli().cli_cx.do_set_basin(line=sys.argv[1])
-    print("------------------------------------------")
-    cli.Cli().cli_cx.do_set_basin(line=sys.argv[2])
-    # cli.Cli().cli_cx.do_output(line="stream")
+    
+    cli.Cli().cli_cx.set_basin(basin_id=sys.argv[1])
+    # print("------------------------------------------")z
+    # cli.Cli().cli_cx.do_set_basin(line=sys.argv[2])
+    cli.Cli().cli_cx.fd.do_output(line= "stream")
     # print("success")
 
 
