@@ -600,8 +600,6 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         self.fd = None
         self.sto=9
         self.sto_range=[4,12] #default, will be override
-        # myadd
-        self.fd = FlwDir() 
     def set_basin(self,basin_id):
         self.basin_id = basin_id
 
@@ -622,7 +620,6 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
     def load(self,cx_dict):
         #load geo and basin info
         self.cx_dict = cx_dict
-        # print(cx_dict)
         filename = cx_dict['geo']
         print("loading basin take few seconds, please wait!")
         df = geopandas.read_file(filename,encoding='utf-8')
@@ -651,8 +648,6 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         filename = 'output/river_c%s_subbas_%i.geojson' %(self.basin_id,self.sto)
         fd.subbasins_streamorder(self.sto,filename)
         self.fd = fd
-        # print("---------")
-        # print(dtm_file,flwdir_file, sto_range_str, fd)
 
     def do_set_basin(self,line):
         """set/load basin
@@ -740,11 +735,7 @@ ex: output stream
         id = "stream"
         #filename = "data/喝好水 吃好物 有良居-公民協力 - 點位集水區.csv"
         if self.fd is None:
-            return id
-        # print("----")
-        # print(self.fd)
-        # print(line)
-        # print("-----")
+            return
         pars=line.split()
         if len(pars)>=1:
             id = pars[0]
