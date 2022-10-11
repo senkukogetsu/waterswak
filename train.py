@@ -22,8 +22,10 @@ temp = "point_catchment_csv"," ",'"'+name+'"'
 file = ''.join(temp)
 
 # for point_catchment
-coordinate_1 = 200998.5
-coordinate_2 = 2632927.8
+# coordinate_1 = 200998.5
+# coordinate_2 = 2632927.8
+coordinate_1 = sys.argv[2]
+coordinate_2 = sys.argv[3]
 temp = "point_catchment"," ",str(coordinate_1),",",str(coordinate_2)
 coordinate = ''.join(temp)
 # print(coordinate)
