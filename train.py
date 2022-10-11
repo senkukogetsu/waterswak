@@ -43,7 +43,10 @@ if __name__ =='__main__':
     # gc.CLI.cmdloop()
 
     gc.CLI = cli.Cli()
+    print("---------- set_basin ----------")
     gc.CLI.cli_cx.set_basin(basin_id=sys.argv[1])
+    print("---------- desc ----------")
+    gc.CLI.cli_cx.do_desc(line="")
     print("---------- output stream ----------")
     gc.CLI.cli_cx.do_output(line="stream")
     print("---------- output subbas ----------")
