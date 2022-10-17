@@ -765,7 +765,9 @@ ex: output stream
 
                 sto=self.sto
                 dist_min=10000
+                # print("CLI : "+ str(self.basin_id))
                 filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,sto)
+                # print("CLI filename: " + filename)
                 self.fd.streams(sto,filename)
                 print("generating point_catchment by using stream(sto=%i)" %(sto))
 
@@ -781,8 +783,7 @@ ex: output stream
                     print("%s,%s,%s" %(p[0],p[1],p[2]))
 
                 #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
-                self.fd.basins(points,'') #need 3826
-
+                self.fd.basins(points, f"output/river_c{self.basin_id}_basin.geojson") #need 3826
 
         if id=="path":
             points=[]
@@ -791,7 +792,7 @@ ex: output stream
                 xy = xy_str.split(",")
                 points.append([float(xy[0]),float(xy[1]),str(xy[2])])
             if len(points)>0:
-                self.fd.path(points,'')
+                self.fd.path(points,f"output/river_c{self.basin_id}_path.geojson")
             else:
                 print("point data invalid!")
         if id =="nx_write_shp":

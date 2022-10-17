@@ -114,7 +114,7 @@ class FlwDir():
         # calculate upstream area
         self.uparea = self.flw.upstream_area(unit='km2')
 
-    def streams(self, min_sto, filename=None): # None: return json, '' use default filename
+    def streams(self, min_sto, filename = None): # None: return json, '' use default filename
         #河道
         try:
             feats = self.flw.streams(min_sto=min_sto)
@@ -122,7 +122,7 @@ class FlwDir():
             print("streams generation error!please setup sto correctly")
             return None
         self.gdf = gpd.GeoDataFrame.from_features(feats, crs=self.crs)
-
+        # print("flwdir : " + filename)
         if filename=='':
             filename = 'output/river_c1300_stream_%i.geojson' %(min_sto)
 
@@ -133,7 +133,7 @@ class FlwDir():
             self.gdf.to_file(filename, driver='GeoJSON',index=True)
             print("stream saved filename=%s" %(filename))
         self.G = self.stream_gen_networkx()
-
+        # print("--- finish ---")
     def subbasins_streamorder(self,min_sto, filename=None):# None: return json, '' use default filename
         # calculate subbasins with a minimum stream order 7
         try:
@@ -196,6 +196,7 @@ class FlwDir():
             self.gdf_paths.to_file(filename, driver='GeoJSON')
             print("path saved:%s" %(filename))
 
+    # def basins(self,points,filename=''): # None: return json, '' use default filename
     def basins(self,points,filename=''): # None: return json, '' use default filename
         # 通過點的上游流域
         #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
@@ -220,6 +221,7 @@ class FlwDir():
             featss.extend(feats)
 
         self.gdf_bas = gpd.GeoDataFrame.from_features(featss, crs=crs)
+        print("flwdir : " + filename)
         if filename=='':
             filename = 'output/river_c1300_basin.geojson'
 
