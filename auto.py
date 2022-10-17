@@ -38,34 +38,43 @@ if __name__ =='__main__':
 
     print("\n---------- set_basin ----------")
     gc.CLI.cli_cx.set_basin(basin_id = sys.argv[1])
+    print("\n########## Success！ ##########")
 
     print("\n---------- desc ----------")
     gc.CLI.cli_cx.do_desc(line = "")
+    print("\n########## Success！ ##########")
 
     print("\n---------- output stream ----------")
     gc.CLI.cli_cx.do_output(line = "stream")
+    print("\n########## Success！ ##########")
 
     print("\n---------- output subbas ----------")
     gc.CLI.cli_cx.do_output(line = "subbas")
+    print("\n########## Success！ ##########")
 
     print("\n---------- output point_catchment_csv ----------")
     try:
         gc.CLI.cli_cx.do_output(line = file)
         print("\n########## Save to CSV Success！ ##########")
-    except:
+    except Exception as e:
+        print("\n########## Error Message ##########\n ", e)
         print("\n########## Save to CSV Failed！ ##########")
 
     print("\n---------- output point_catchment ----------")
     gc.CLI.cli_cx.do_output(line = coordinate)
+    print("\n########## Success！ ##########")
 
     print("\n---------- output path ----------")
     gc.CLI.cli_cx.do_output(line = path_name)
+    print("\n########## Success！ ##########")
 
     print("\n---------- output nx_write_shp ----------")
     gc.CLI.cli_cx.do_output(line = "nx_write_shp")
+    print("\n########## Success！ ##########")
 
     print("\n---------- output pathline_interpolate 10 ----------")
     gc.CLI.cli_cx.do_output(line = "pathline_interpolate 10")
+    print("\n########## Success！ ##########")
     
     
         
