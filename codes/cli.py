@@ -643,9 +643,9 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         fd = FlwDir()
         fd.reload(dtm_file,flwdir_file)
         fd.init()
-        filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,self.sto)
+        filename = 'output/basin_c%s/river_c%s_stream_%i.geojson' %(self.basin_id, self.basin_id, self.sto)
         fd.streams(self.sto,filename)
-        filename = 'output/river_c%s_subbas_%i.geojson' %(self.basin_id,self.sto)
+        filename = 'output/basin_c%s/river_c%s_subbas_%i.geojson' %(self.basin_id, self.basin_id, self.sto)
         fd.subbasins_streamorder(self.sto,filename)
         self.fd = fd
 
@@ -687,7 +687,7 @@ ex: set_basin list
     def point_catchment_gen(self,csv_filename):
         sto=self.sto
         dist_min=10000
-        filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,sto)
+        filename = 'output/basin_c%s/river_c%s_stream_%i.geojson' %(self.basin_id, self.basin_id, sto)
         self.fd.streams(sto,filename)
         print("generating point_catchment by using stream(sto=%i)" %(sto))
 
@@ -710,7 +710,7 @@ ex: set_basin list
 
 
         #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
-        self.fd.basins(points,'') #need 3826
+        self.fd.basins(points,f'output/basin_c{self.basin_id}/river_c{self.basin_id}_basin.geojson') #need 3826
         #self.fd.gdf_bas
 
     def do_output(self,line):
@@ -742,13 +742,14 @@ ex: output stream
         if id=="stream":
 
             for i in range(self.sto_range[0],self.sto_range[1]):
-                filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,i)
+                filename = 'output/basin_c%s/river_c%s_stream_%i.geojson' %(self.basin_id, self.basin_id, i)
                 self.fd.streams(i,filename)
         if id=="subbas":
             for i in range(self.sto_range[0],self.sto_range[1]):
-                filename = 'output/river_c%s_subbas_%i.geojson' %(self.basin_id,i)
+                filename = 'output/basin_c%s/river_c%s_subbas_%i.geojson' %(self.basin_id, self.basin_id, i)
                 self.fd.subbasins_streamorder(i,filename)
         if id =="point_catchment_csv":
+            # print(line)
             pars1=line.split("\"")
             if len(pars1)!=3:
                 print("should follow the format")
@@ -766,7 +767,7 @@ ex: output stream
                 sto=self.sto
                 dist_min=10000
                 # print("CLI : "+ str(self.basin_id))
-                filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,sto)
+                filename = 'output/basin_c%s/river_c%s_stream_%i.geojson' %(self.basin_id, self.basin_id, sto)
                 # print("CLI filename: " + filename)
                 self.fd.streams(sto,filename)
                 print("generating point_catchment by using stream(sto=%i)" %(sto))
@@ -783,7 +784,7 @@ ex: output stream
                     print("%s,%s,%s" %(p[0],p[1],p[2]))
 
                 #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
-                self.fd.basins(points, f"output/river_c{self.basin_id}_basin.geojson") #need 3826
+                self.fd.basins(points, f"output/basin_c{self.basin_id}/river_c{self.basin_id}_basin.geojson") #need 3826
 
         if id=="path":
             points=[]
@@ -792,16 +793,21 @@ ex: output stream
                 xy = xy_str.split(",")
                 points.append([float(xy[0]),float(xy[1]),str(xy[2])])
             if len(points)>0:
-                self.fd.path(points,f"output/river_c{self.basin_id}_path.geojson")
+                self.fd.path(points,f"output/basin_c{self.basin_id}/river_c{self.basin_id}_path.geojson")
             else:
                 print("point data invalid!")
         if id =="nx_write_shp":
-            self.fd.nx_write_shp()
+            iid = self.basin_id
+            self.fd.nx_write_shp(iid)
         if id=="pathline_interpolate":
             parts=10
             gdf = None
-            filename_csv = "output/pathline_height.csv"
-            filename_shp = "output/pathline_slope.shp"
+            # filename_csv = "output/pathline_height.csv"
+            # filename_shp = "output/pathline_slope.shp"
+            if not os.path.exists(f"output/basin_c{self.basin_id}/pathline"):
+                os.mkdir(f"output/basin_c{self.basin_id}/pathline") 
+            filename_csv = f"output/basin_c{self.basin_id}/pathline/{self.basin_id}_pathline_height.csv"
+            filename_shp = f"output/basin_c{self.basin_id}/pathline/{self.basin_id}_pathline_slope.shp"
             if len(pars)>=2:
                 parts = int(pars[1])
             if len(pars)>=3:
