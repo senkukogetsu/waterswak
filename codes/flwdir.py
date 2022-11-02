@@ -8,7 +8,6 @@ import pyflwdir
 import geopandas as gpd
 import pandas as pd
 import json
-
 #畫圖要用的函示
 import matplotlib
 import matplotlib.pyplot as plt
@@ -16,6 +15,7 @@ from matplotlib import cm, colors
 import cartopy.crs as ccrs
 import numpy as np
 
+import codes.cli
 
 from shapely import wkt
 from shapely.ops import split
@@ -391,7 +391,7 @@ class FlwDir():
 
     def nx_write_shp(self,id):
         G= self.stream_gen_networkx(1)
-        pathname=f"output/basin_c{id}/stream"
+        pathname=f"output/basin_c{id}_{codes.cli.now}/stream"
         nx.write_shp(G,pathname)
         if self.crs.to_epsg() == 3826:
             prj="""PROJCS["TWD_1997_TM_Taiwan",GEOGCS["GCS_TWD_1997",DATUM["D_TWD_1997",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",250000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",121.0],PARAMETER["Scale_Factor",0.9999],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]"""

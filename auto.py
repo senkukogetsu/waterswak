@@ -44,21 +44,21 @@ if __name__ =='__main__':
     gc.CLI.cli_cx.do_desc(line = "")
     print("\n########## Success！ ##########")
 
-    # print("\n---------- output stream ----------")
-    # gc.CLI.cli_cx.do_output(line = "stream")
-    # print("\n########## Success！ ##########")
+    print("\n---------- output stream ----------")
+    gc.CLI.cli_cx.do_output(line = "stream")
+    print("\n########## Success！ ##########")
 
-    # print("\n---------- output subbas ----------")
-    # gc.CLI.cli_cx.do_output(line = "subbas")
-    # print("\n########## Success！ ##########")
+    print("\n---------- output subbas ----------")
+    gc.CLI.cli_cx.do_output(line = "subbas")
+    print("\n########## Success！ ##########")
 
-    # print("\n---------- output point_catchment_csv ----------")
-    # try:
-    #     gc.CLI.cli_cx.do_output(line = file)
-    #     print("\n########## Save to CSV Success！ ##########")
-    # except Exception as e:
-    #     print("\n########## Error Message ##########\n ", e)
-    #     print("\n########## Save to CSV Failed！ ##########")
+    print("\n---------- output point_catchment_csv ----------")
+    try:
+        gc.CLI.cli_cx.do_output(line = file)
+        print("\n########## Save to CSV Success！ ##########")
+    except Exception as e:
+        print("\n########## Error Message ##########\n ", e)
+        print("\n########## Save to CSV Failed！ ##########")
 
     print("\n---------- output point_catchment ----------")
     try:
