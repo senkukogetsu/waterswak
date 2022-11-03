@@ -26,6 +26,8 @@ import datetime
 today = datetime.datetime.now()
 now = today.strftime("%Y%m%d %H_%M_%S")
 
+import auto
+
 DOMAIN_SET_LOAD_SKIP=0
 DOMAIN_SET_LOAD_CSV=1
 DOMAIN_SET_LOAD_GEO=2
@@ -628,13 +630,23 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         df = geopandas.read_file(filename,encoding='utf-8')
         self.df = df[df['basin_no']==self.basin_id]
         if len(self.df.index)>0:
+            # filebasename="basin_c%s" %(self.basin_id)
+            # before_path = "output/%s" %(auto.folder_name)
+            # if not os.path.exists(before_path):
+            #     os.mkdir(before_path)
+            # path_dir="output/%s/%s_%s" %(auto.folder_name, filebasename, now)
+            # if not os.path.exists(path_dir):
+            #     os.mkdir(path_dir)
             filebasename="basin_c%s" %(self.basin_id)
-            path_dir="output/%s_%s" %(filebasename, now)
-            if not os.path.exists(path_dir):
-                os.mkdir(path_dir)
+            before_path = "output/%s" %(auto.folder_name)
+            if not os.path.exists(before_path):
+                os.mkdir(before_path)
+            # path_dir="output/%s/%s_%s" %(auto.folder_name, filebasename, now)
+            # if not os.path.exists(path_dir):
+            #     os.mkdir(path_dir)
             dict_par={'encoding':'utf-8'}
-            self.df.to_file("%s/%s.shp" %(path_dir,filebasename),**dict_par)
-            print("%s shp saved: %s" %(filebasename, path_dir))
+            self.df.to_file("%s/%s.shp" %(before_path,filebasename),**dict_par)
+            print("%s shp saved: %s" %(filebasename, before_path))
 
         #load flwdir
         dtm_file= cx_dict['dtm']
@@ -646,9 +658,12 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         fd = FlwDir()
         fd.reload(dtm_file,flwdir_file)
         fd.init()
-        filename = 'output/basin_c%s_%s/river_c%s_stream_%i.geojson' %(self.basin_id, now, self.basin_id, self.sto)
+        # filename = 'output/%s/basin_c%s_%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, now, self.basin_id, self.sto)
+        # fd.streams(self.sto,filename)
+        # filename = 'output/%s/basin_c%s_%s/river_c%s_subbas_%i.geojson' %(auto.folder_name, self.basin_id, now, self.basin_id, self.sto)
+        filename = 'output/%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, self.sto)
         fd.streams(self.sto,filename)
-        filename = 'output/basin_c%s_%s/river_c%s_subbas_%i.geojson' %(self.basin_id, now, self.basin_id, self.sto)
+        filename = 'output/%s/river_c%s_subbas_%i.geojson' %(auto.folder_name, self.basin_id, self.sto)
         fd.subbasins_streamorder(self.sto,filename)
         self.fd = fd
 
@@ -770,7 +785,8 @@ ex: output stream
                 sto=self.sto
                 dist_min=10000
                 # print("CLI : "+ str(self.basin_id))
-                filename = 'output/basin_c%s_%s/river_c%s_stream_%i.geojson' %(self.basin_id, now, self.basin_id, sto)
+                # filename = 'output/%s/basin_c%s_%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, now, self.basin_id, sto)
+                filename = 'output/%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, sto)
                 # print("CLI filename: " + filename)
                 self.fd.streams(sto,filename)
                 print("generating point_catchment by using stream(sto=%i)" %(sto))
@@ -787,7 +803,9 @@ ex: output stream
                     print("%s,%s,%s" %(p[0],p[1],p[2]))
 
                 #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
-                self.fd.basins(points, f"output/basin_c{self.basin_id}_{now}/river_c{self.basin_id}_basin.geojson") #need 3826
+                # self.fd.basins(points, f"output/{auto.folder_name}/basin_c{self.basin_id}_{now}/river_c{self.basin_id}_basin.geojson") #need 3826
+                self.fd.basins(points, f"output/{auto.folder_name}/river_c{self.basin_id}_basin.geojson") #need 3826
+
 
         if id=="path":
             points=[]

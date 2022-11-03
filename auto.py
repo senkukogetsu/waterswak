@@ -27,8 +27,8 @@ coordinate = ''.join(temp)
 temp = "path", " ", str(coordinate_1), ",", str(coordinate_2), ",", "name_a"
 path_name = ''.join(temp)
 
-#Spec: program init, mode selection, start
-#How/NeedToKnow:
+folder_name = sys.argv[4]
+
 if __name__ =='__main__':
     #init global classes   
     gc.SETTING  = ConfigObj("include/waterswak.ini")
