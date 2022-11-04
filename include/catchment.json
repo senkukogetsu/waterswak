@@ -55,7 +55,11 @@
     "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
     "dtm": "data/catchment/C1420_20m_elv0.tif",
     "ldd": "data/catchment/C1420_20m_ldd.tif",
+<<<<<<< HEAD
     "min_sto": 9,
+=======
+    "min_sto": 5,
+>>>>>>> e95b7db (不影響原本檔案)
     "sto_range": "4,12",
     "load_type": 0
   },
@@ -65,7 +69,11 @@
     "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
     "dtm": "data/catchment/C1140_20m_elv0.tif",
     "ldd": "data/catchment/C1140_20m_ldd.tif",
+<<<<<<< HEAD
     "min_sto": 9,
+=======
+    "min_sto": 6,
+>>>>>>> e95b7db (不影響原本檔案)
     "sto_range": "4,12",
     "load_type": 0
 },
@@ -75,7 +83,11 @@
     "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
     "dtm": "data/catchment/C1510_20m_elv0.tif",
     "ldd": "data/catchment/C1510_20m_ldd.tif",
+<<<<<<< HEAD
     "min_sto": 9,
+=======
+    "min_sto": 5,
+>>>>>>> e95b7db (不影響原本檔案)
     "sto_range": "4,12",
     "load_type": 0
   },
@@ -85,7 +97,11 @@
     "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
     "dtm": "data/catchment/C1630_20m_elv0.tif",
     "ldd": "data/catchment/C1630_20m_ldd.tif",
+<<<<<<< HEAD
     "min_sto": 9,
+=======
+    "min_sto": 6,
+>>>>>>> e95b7db (不影響原本檔案)
     "sto_range": "4,12",
     "load_type": 0
   },
@@ -95,7 +111,11 @@
     "geo": "data/basin-河川流域範圍圖/basin-河川流域範圍圖.shp",
     "dtm": "data/catchment/C1730_20m_elv0.tif",
     "ldd": "data/catchment/C1730_20m_ldd.tif",
+<<<<<<< HEAD
     "min_sto": 9,
+=======
+    "min_sto": 6,
+>>>>>>> e95b7db (不影響原本檔案)
     "sto_range": "4,12",
     "load_type": 0
   }

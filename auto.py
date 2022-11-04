@@ -5,7 +5,11 @@ from configobj import ConfigObj
 import codes.globalclasses as gc
 from codes.const import *
 import codes.app as app
+<<<<<<< HEAD
 import codes.cli as cli
+=======
+import codes.cli_auto as cli
+>>>>>>> e95b7db (不影響原本檔案)
 import codes.ut as ut
 import codes.ui as ui
 
@@ -40,9 +44,15 @@ if __name__ =='__main__':
     gc.CLI.cli_cx.set_basin(basin_id = sys.argv[1])
     print("\n########## Success！ ##########")
 
+<<<<<<< HEAD
     print("\n---------- desc ----------")
     gc.CLI.cli_cx.do_desc(line = "")
     print("\n########## Success！ ##########")
+=======
+    # print("\n---------- desc ----------")
+    # gc.CLI.cli_cx.do_desc(line = "")
+    # print("\n########## Success！ ##########")
+>>>>>>> e95b7db (不影響原本檔案)
 
     # print("\n---------- output stream ----------")
     # gc.CLI.cli_cx.do_output(line = "stream")
