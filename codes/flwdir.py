@@ -8,6 +8,7 @@ import pyflwdir
 import geopandas as gpd
 import pandas as pd
 import json
+
 #畫圖要用的函示
 import matplotlib
 import matplotlib.pyplot as plt
@@ -15,7 +16,6 @@ from matplotlib import cm, colors
 import cartopy.crs as ccrs
 import numpy as np
 
-import codes.cli
 
 from shapely import wkt
 from shapely.ops import split
@@ -114,7 +114,7 @@ class FlwDir():
         # calculate upstream area
         self.uparea = self.flw.upstream_area(unit='km2')
 
-    def streams(self, min_sto, filename = None): # None: return json, '' use default filename
+    def streams(self, min_sto, filename=None): # None: return json, '' use default filename
         #河道
         try:
             feats = self.flw.streams(min_sto=min_sto)
@@ -122,7 +122,7 @@ class FlwDir():
             print("streams generation error!please setup sto correctly")
             return None
         self.gdf = gpd.GeoDataFrame.from_features(feats, crs=self.crs)
-        # print("flwdir : " + filename)
+
         if filename=='':
             filename = 'output/river_c1300_stream_%i.geojson' %(min_sto)
 
@@ -133,7 +133,7 @@ class FlwDir():
             self.gdf.to_file(filename, driver='GeoJSON',index=True)
             print("stream saved filename=%s" %(filename))
         self.G = self.stream_gen_networkx()
-        # print("--- finish ---")
+
     def subbasins_streamorder(self,min_sto, filename=None):# None: return json, '' use default filename
         # calculate subbasins with a minimum stream order 7
         try:
@@ -196,8 +196,7 @@ class FlwDir():
             self.gdf_paths.to_file(filename, driver='GeoJSON')
             print("path saved:%s" %(filename))
 
-    # def basins(self,points,filename=''): # None: return json, '' use default filename
-    def basins(self,points,filename): # None: return json, '' use default filename
+    def basins(self,points,filename=''): # None: return json, '' use default filename
         # 通過點的上游流域
         #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
 
@@ -221,7 +220,6 @@ class FlwDir():
             featss.extend(feats)
 
         self.gdf_bas = gpd.GeoDataFrame.from_features(featss, crs=crs)
-        # print("flwdir : " + filename)
         if filename=='':
             filename = 'output/river_c1300_basin.geojson'
 
@@ -389,9 +387,9 @@ class FlwDir():
 
         return G
 
-    def nx_write_shp(self,id):
+    def nx_write_shp(self):
         G= self.stream_gen_networkx(1)
-        pathname=f"output/basin_c{id}_{codes.cli.now}/stream"
+        pathname="output/stream"
         nx.write_shp(G,pathname)
         if self.crs.to_epsg() == 3826:
             prj="""PROJCS["TWD_1997_TM_Taiwan",GEOGCS["GCS_TWD_1997",DATUM["D_TWD_1997",SPHEROID["GRS_1980",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",250000.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",121.0],PARAMETER["Scale_Factor",0.9999],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]"""
@@ -552,4 +550,3 @@ class FlwDir():
             data=self.flwdir
         row,col =rio.index(point[0],point[1])
         return data[row,col]
-

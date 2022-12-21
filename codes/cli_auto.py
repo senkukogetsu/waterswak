@@ -21,12 +21,13 @@ from codes.riverlog import *
 from codes.tools import *
 from codes.flwdir_auto import *
 import codes.wflow as wflow
+import auto
 
 import datetime
 today = datetime.datetime.now()
 now = today.strftime("%Y%m%d %H_%M_%S")
 
-import auto
+
 
 DOMAIN_SET_LOAD_SKIP=0
 DOMAIN_SET_LOAD_CSV=1

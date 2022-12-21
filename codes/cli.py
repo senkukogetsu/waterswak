@@ -11,7 +11,6 @@ import logging
 import geopandas
 from shapely.geometry import *
 
-# print(now)
 #library
 import codes.globalclasses as gc
 from codes.const import *
@@ -22,11 +21,7 @@ from codes.tools import *
 from codes.flwdir import *
 import codes.wflow as wflow
 
-import datetime
-today = datetime.datetime.now()
-now = today.strftime("%Y%m%d %H_%M_%S")
 
-import auto
 
 DOMAIN_SET_LOAD_SKIP=0
 DOMAIN_SET_LOAD_CSV=1
@@ -210,9 +205,11 @@ class CliTool(cmd.Cmd):
 (3)if path start with ~/ , will locate in DATA2_DIR(defined in waterswak.ini)
 (4)geopandas read_file parameters needed can be pass by multiple keyword=value
 (5)pathname=help provide keyword help message
+
 read_file pathname [keyword=value] [...]
 ex: read_file data/7441-鄉鎮市區界線(TWD97經緯度)/TOWN_MOI.shp  encoding='utf-8'
     read_file ~/國發會/TOWN_MOI/TOWN_MOI_1080617.shp
+
 """
 
         data_dir=''
@@ -315,6 +312,7 @@ get_flow flow_id desc
 get_flow flow_id time_xy t x y o
 get_flow flow_id his_xy x y o
 get_flow flow_id max_offset x y o
+
 ex: get_flow C1300QE-202107251400 desc
     get_flow C1300QE-202107251400 time_xy 27114180 120.9339 24.4961 10
     get_flow C1300QE-202107251400 his_xy 120.9339 24.4961 10
@@ -630,23 +628,13 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         df = geopandas.read_file(filename,encoding='utf-8')
         self.df = df[df['basin_no']==self.basin_id]
         if len(self.df.index)>0:
-            # filebasename="basin_c%s" %(self.basin_id)
-            # before_path = "output/%s" %(auto.folder_name)
-            # if not os.path.exists(before_path):
-            #     os.mkdir(before_path)
-            # path_dir="output/%s/%s_%s" %(auto.folder_name, filebasename, now)
-            # if not os.path.exists(path_dir):
-            #     os.mkdir(path_dir)
             filebasename="basin_c%s" %(self.basin_id)
-            before_path = "output/%s" %(auto.folder_name)
-            if not os.path.exists(before_path):
-                os.mkdir(before_path)
-            # path_dir="output/%s/%s_%s" %(auto.folder_name, filebasename, now)
-            # if not os.path.exists(path_dir):
-            #     os.mkdir(path_dir)
+            path_dir="output/%s" %(filebasename)
+            if not os.path.exists(path_dir):
+                os.mkdir(path_dir)
             dict_par={'encoding':'utf-8'}
-            self.df.to_file("%s/%s.shp" %(before_path,filebasename),**dict_par)
-            print("%s shp saved: %s" %(filebasename, before_path))
+            self.df.to_file("%s/%s.shp" %(path_dir,filebasename),**dict_par)
+            print("%s shp saved: %s" %(filebasename, path_dir))
 
         #load flwdir
         dtm_file= cx_dict['dtm']
@@ -658,12 +646,9 @@ cx_dict={'basin_id':1300, 'basin_name':'頭前溪', 'geo':'data/basin-河川流�
         fd = FlwDir()
         fd.reload(dtm_file,flwdir_file)
         fd.init()
-        # filename = 'output/%s/basin_c%s_%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, now, self.basin_id, self.sto)
-        # fd.streams(self.sto,filename)
-        # filename = 'output/%s/basin_c%s_%s/river_c%s_subbas_%i.geojson' %(auto.folder_name, self.basin_id, now, self.basin_id, self.sto)
-        filename = 'output/%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, self.sto)
+        filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,self.sto)
         fd.streams(self.sto,filename)
-        filename = 'output/%s/river_c%s_subbas_%i.geojson' %(auto.folder_name, self.basin_id, self.sto)
+        filename = 'output/river_c%s_subbas_%i.geojson' %(self.basin_id,self.sto)
         fd.subbasins_streamorder(self.sto,filename)
         self.fd = fd
 
@@ -705,7 +690,7 @@ ex: set_basin list
     def point_catchment_gen(self,csv_filename):
         sto=self.sto
         dist_min=10000
-        filename = 'output/basin_c%s_%s/river_c%s_stream_%i.geojson' %(self.basin_id, now, self.basin_id, sto)
+        filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,sto)
         self.fd.streams(sto,filename)
         print("generating point_catchment by using stream(sto=%i)" %(sto))
 
@@ -728,7 +713,7 @@ ex: set_basin list
 
 
         #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
-        self.fd.basins(points,f'output/basin_c{self.basin_id}_{now}/river_c{self.basin_id}_basin.geojson') #need 3826
+        self.fd.basins(points,'') #need 3826
         #self.fd.gdf_bas
 
     def do_output(self,line):
@@ -760,14 +745,13 @@ ex: output stream
         if id=="stream":
 
             for i in range(self.sto_range[0],self.sto_range[1]):
-                filename = 'output/basin_c%s_%s/river_c%s_stream_%i.geojson' %(self.basin_id, now, self.basin_id, i)
+                filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,i)
                 self.fd.streams(i,filename)
         if id=="subbas":
             for i in range(self.sto_range[0],self.sto_range[1]):
-                filename = 'output/basin_c%s_%s/river_c%s_subbas_%i.geojson' %(self.basin_id, now, self.basin_id, i)
+                filename = 'output/river_c%s_subbas_%i.geojson' %(self.basin_id,i)
                 self.fd.subbasins_streamorder(i,filename)
         if id =="point_catchment_csv":
-            # print(line)
             pars1=line.split("\"")
             if len(pars1)!=3:
                 print("should follow the format")
@@ -784,10 +768,7 @@ ex: output stream
 
                 sto=self.sto
                 dist_min=10000
-                # print("CLI : "+ str(self.basin_id))
-                # filename = 'output/%s/basin_c%s_%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, now, self.basin_id, sto)
-                filename = 'output/%s/river_c%s_stream_%i.geojson' %(auto.folder_name, self.basin_id, sto)
-                # print("CLI filename: " + filename)
+                filename = 'output/river_c%s_stream_%i.geojson' %(self.basin_id,sto)
                 self.fd.streams(sto,filename)
                 print("generating point_catchment by using stream(sto=%i)" %(sto))
 
@@ -803,8 +784,7 @@ ex: output stream
                     print("%s,%s,%s" %(p[0],p[1],p[2]))
 
                 #points=[[260993,2735861,'油羅上坪匯流'],[253520,2743364,'隆恩堰'],[247785,2746443,'湳雅取水口']]
-                # self.fd.basins(points, f"output/{auto.folder_name}/basin_c{self.basin_id}_{now}/river_c{self.basin_id}_basin.geojson") #need 3826
-                self.fd.basins(points, f"output/{auto.folder_name}/river_c{self.basin_id}_basin.geojson") #need 3826
+                self.fd.basins(points,'') #need 3826
 
 
         if id=="path":
@@ -814,21 +794,16 @@ ex: output stream
                 xy = xy_str.split(",")
                 points.append([float(xy[0]),float(xy[1]),str(xy[2])])
             if len(points)>0:
-                self.fd.path(points,f"output/basin_c{self.basin_id}_{now}/river_c{self.basin_id}_path.geojson")
+                self.fd.path(points,'')
             else:
                 print("point data invalid!")
         if id =="nx_write_shp":
-            iid = self.basin_id
-            self.fd.nx_write_shp(iid)
+            self.fd.nx_write_shp()
         if id=="pathline_interpolate":
             parts=10
             gdf = None
-            # filename_csv = "output/pathline_height.csv"
-            # filename_shp = "output/pathline_slope.shp"
-            if not os.path.exists(f"output/basin_c{self.basin_id}_{now}/pathline"):
-                os.mkdir(f"output/basin_c{self.basin_id}_{now}/pathline") 
-            filename_csv = f"output/basin_c{self.basin_id}_{now}/pathline/{self.basin_id}_pathline_height.csv"
-            filename_shp = f"output/basin_c{self.basin_id}_{now}/pathline/{self.basin_id}_pathline_slope.shp"
+            filename_csv = "output/pathline_height.csv"
+            filename_shp = "output/pathline_slope.shp"
             if len(pars)>=2:
                 parts = int(pars[1])
             if len(pars)>=3:
@@ -860,6 +835,7 @@ info point_height x,y
      2node node_a node_b
      point_near x,y [min_distance] :  get stream nearest information by point, line_index, distance, point_x, point_y
      2point x1,y1 x2,y2 [min_distance] : desc 2point path, path length, river length
+
 ex: info point_height 274202,2731387
     info 2node S0 E18
     info point_near 253520,2743364 5000
