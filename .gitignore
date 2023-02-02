@@ -134,3 +134,6 @@ dmypy.json
 
 # output 
 output/
+*.zip
+hackathon_20211001_v0.4/
+hackathon_20211001_v0.4/

@@ -85,7 +85,8 @@ class WFlows():
 #single wflow
 class WFlow():
     def __init__(self,nc_file):
-        #nc_file="/Users/wuulong/MakerBk2/QGIS/projects/Test_316/202107251400.nc"
+        # nc_file="/Users/wuulong/MakerBk2/QGIS/projects/Test_316/202107251400.nc"
+        nc_file="/Users/diclab/Desktop/waterswak_old/hackathon_20211001_v0.4/hackathon/20230104_test/C1300QE-202107251400.nc/C1300QE-202107251400.nc"
         rootgrp = nc.Dataset(nc_file)
         self.flow_simulated = rootgrp.variables['flow_simulated']
         self.x = rootgrp.variables['x'][:]
