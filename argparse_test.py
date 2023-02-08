@@ -31,7 +31,7 @@ def get_parser():
     parser.add_argument('-h', '--help', action = 'help', default = argparse.SUPPRESS,
                         help = '----- Show help message about this system.')
 
-    parser.add_argument('-b', '--basinID', default = '1420', type = int,
+    parser.add_argument('-b', '--set_basin',  metavar = ('basinID'), nargs = "?", #default = '1300', type = int,
                         help = "----- Please input BasinID, ex: 1300.")
 
     parser.add_argument('-m', '--stream', dest='stream', action='store_true', 
@@ -40,7 +40,7 @@ def get_parser():
     parser.add_argument('-s', '--subbas', dest='subbas', action='store_true', 
                         help = "----- Input this command and the system will output \"subbas\" files.")
 
-    parser.add_argument('-p', '--path', default = ['226930', '2686356'], metavar = ('TWD97_1', 'TWD97_2'), nargs = 2, type = int, 
+    parser.add_argument('-p', '--path', metavar = ('TWD97_1', 'TWD97_2'), nargs = 2, type = int,  # default = ['226930', '2686356'], 
                         help = "----- According to the BasinID entered by user, input two integer coordinates in TWD97 format for the ID, ex: 253520 2743364.")
     
     parser.add_argument('-n', '--name', default = now, 
@@ -50,20 +50,20 @@ def get_parser():
                         # nargs = '?', const = flow_ID,
                         help = "----- Input the flow ID. ")
 
-    parser.add_argument('--time', action="store_true", dest="time",
-                        help = "----- time_xy. ")
-    parser.add_argument('--time_xy', default = ['27114180', '120.9339', '24.4961', '10'], metavar = ('t', 'x', 'y', 'o'), nargs = 4,
+    # parser.add_argument('--time', action="store_true", dest="time",
+    #                     help = "----- time_xy. ")
+    parser.add_argument('--time_xy', metavar = ('t', 'x', 'y', 'o'), nargs = 4,
                         # default = ['27114180', '120.9339', '24.4961', '10'], type = float, metavar = ('t', 'x', 'y', 'o'), nargs = 4, 
                         help = "t x y o. ")
 
-    parser.add_argument('--his', action="store_true", dest="his",
-                        help = "----- his_xy. ")
-    parser.add_argument('--his_xy', default = ['120.9339', '24.4961', '10'], metavar = ('x', 'y', 'o'), nargs = 3, 
+    # parser.add_argument('--his', action="store_true", dest="his",
+    #                     help = "----- his_xy. ")
+    parser.add_argument('--his_xy', metavar = ('x', 'y', 'o'), nargs = 3, 
                         help = " x y o. ")
 
-    parser.add_argument('--max', action="store_true", dest="max",
-                        help = "----- max_offset. ")
-    parser.add_argument('--max_offset', default = ['120.9339', '24.4961', '10'], metavar = ('x', 'y', 'o'), nargs = 3, 
+    # parser.add_argument('--max', action="store_true", dest="max",
+    #                     help = "----- max_offset. ")
+    parser.add_argument('--max_offset', metavar = ('x', 'y', 'o'), nargs = 3, 
                         help = " x y o. ")
 
     return parser
@@ -75,34 +75,39 @@ def auto(args):
     gc.GAP = app.SApp()
     gc.CLI = cli.Cli()
     
-    # print("\n########## set_basin ##########")
-    # gc.CLI.cli_cx.set_basin(basin_id = str(args.basinID))
-    # print("\n---------- Success！ ----------")
+    if (args.set_basin != None):
+        print("\n########## set_basin ##########")
+        gc.CLI.cli_cx.set_basin(basin_id = str(args.set_basin))
+        print("\n---------- Success！ ----------")
 
-    # # print(args.stream)
-    # if (args.stream):
-    #     print("\n########## output stream ##########")
-    #     gc.CLI.cli_cx.do_output(line = "stream")
-    #     print("\n---------- Success！ ----------")
-        
-    # if (args.subbas):
-    #     print("\n########## output subbas ##########")
-    #     gc.CLI.cli_cx.do_output(line = "subbas")
-    #     print("\n---------- Success！ ----------")
+        # print(args.stream)
+        if (args.stream):
+            print("\n########## output stream ##########")
+            gc.CLI.cli_cx.do_output(line = "stream")
+            print("\n---------- Success！ ----------")
+            
+        if (args.subbas):
+            print("\n########## output subbas ##########")
+            gc.CLI.cli_cx.do_output(line = "subbas")
+            print("\n---------- Success！ ----------")
 
-    # # for path
-    # if (args.path[0] < args.path[1]):
-    #     min = args.path[0]
-    #     max = args.path[1]
-    # temp = "path", " ", str(min), ",", str(max), ",", "name_a"
-    # path_name = ''.join(temp)
+        if (args.path != None):
+            # for path
+            if (args.path[0] < args.path[1]):
+                min = args.path[0]
+                max = args.path[1]
+            temp = "path", " ", str(min), ",", str(max), ",", "name_a"
+            path_name = ''.join(temp)
 
-    # print("\n########## output path ##########")
-    # gc.CLI.cli_cx.do_output(line = path_name)
-    # print("\n---------- Success！ ----------")
+            print("\n########## output path ##########")
+            gc.CLI.cli_cx.do_output(line = path_name)
+            print("\n---------- Success！ ----------")
 
-    if (args.get_flow):
-        
+        print("The relevant output files are temporarily stored in the \"output\" folder. If the \"-n\", \"--name\" argument is used, it will be stored in a folder with the specified name. If not, it will be temporarily stored in a folder with the current date and time of execution.")
+    # else:
+    #     print("To use the \"output_stream\", \"output_subbas\", and \"path\" functions, please enter --set_basin and the basin_ID first!")
+    
+    if (args.get_flow):        
         # print("\n########## The default flow_id ##########")
         # print('flow_id:', args.get_flow)
         print("\n########## get_flow flow_id desc ##########")
@@ -111,7 +116,7 @@ def auto(args):
         gc.CLI.cli_tool.do_get_flow(line = cmdline)
         print("\n---------- Success！ ----------")
 
-        if (args.time):
+        if (args.time_xy != None):
             print("\n########## get_flow flow_id time_xy ##########")
             time_cmdline_temp = str(args.get_flow) , ' ','time_xy', ' ', str(args.time_xy[0]), ' ', str(args.time_xy[1]), ' ', str(args.time_xy[2]), ' ', str(args.time_xy[3])
             time_cmdline = ''.join(time_cmdline_temp)
@@ -120,7 +125,7 @@ def auto(args):
             gc.CLI.cli_tool.do_get_flow(line = time_cmdline)
             print("\n---------- Success！ ----------")
 
-        if (args.his):
+        if (args.his_xy != None):
             print("\n########## get_flow flow_id his_xy ##########")
             his_cmdline_temp = str(args.get_flow) , ' ','his_xy', ' ', str(args.his_xy[0]), ' ', str(args.his_xy[1]), ' ', str(args.his_xy[2])
             his_cmdline = ''.join(his_cmdline_temp)
@@ -128,15 +133,15 @@ def auto(args):
             gc.CLI.cli_tool.do_get_flow(line = his_cmdline)
             print("\n---------- Success！ ----------")
 
-        if (args.max):
+        if (args.max_offset != None):
             print("\n########## get_flow flow_id max_offset ##########")
             max_cmdline_temp = str(args.get_flow) , ' ','max_offset', ' ', str(args.max_offset[0]), ' ', str(args.max_offset[1]), ' ', str(args.max_offset[2])
             max_cmdline = ''.join(max_cmdline_temp)
             gc.CLI.cli_tool.do_get_flow(line = max_cmdline)
             print("\n---------- Success！ ----------")    
 
-    else:
-        print("Please input --get_flow and the flow_ID!")
+    # else:
+    #     print("To use the \"time_xy\", \"his_xy\", and \"max_offset\" functions, please enter --get_flow and the flow_ID first!")
 
 if __name__ == '__main__':
     parser = get_parser()
